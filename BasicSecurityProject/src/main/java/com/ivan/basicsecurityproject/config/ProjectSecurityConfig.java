@@ -44,10 +44,10 @@ public class ProjectSecurityConfig {
 
         return new InMemoryUserDetailsManager(user, admin);
     }*/
-    @Bean
+   /* @Bean
     public UserDetailsService userDetailsService(DataSource dataSource) {
         return new JdbcUserDetailsManager(dataSource);
-    }
+    } */
 
 
    @Bean

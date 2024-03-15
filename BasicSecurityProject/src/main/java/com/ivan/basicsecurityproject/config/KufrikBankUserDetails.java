@@ -35,6 +35,6 @@ public class KufrikBankUserDetails implements UserDetailsService {
             authorities = new ArrayList<>();
             authorities.add(new SimpleGrantedAuthority(customer.get(0).getRole()));
         }
-        return new User(userName,password,authorities);
+        return new User(username,password,authorities);
     }
 }
