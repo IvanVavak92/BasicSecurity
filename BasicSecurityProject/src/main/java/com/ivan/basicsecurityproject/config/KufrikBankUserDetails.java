@@ -2,7 +2,6 @@ package com.ivan.basicsecurityproject.config;
 
 import com.ivan.basicsecurityproject.models.Customer;
 import com.ivan.basicsecurityproject.repositories.CustomerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
