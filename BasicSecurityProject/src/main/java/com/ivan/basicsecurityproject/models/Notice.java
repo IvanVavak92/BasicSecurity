@@ -14,7 +14,11 @@ public class Notice {
 
     private String noticeSummary;
     private String noticeDetails;
+
+    @Column(name = "notic_beg_dt")
     private Date noticBegDt;
+
+    @Column(name = "notic_end_dt")
     private Date noticEndDt;
     private Date createDt;
 
