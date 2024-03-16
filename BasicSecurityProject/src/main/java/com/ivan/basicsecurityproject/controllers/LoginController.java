@@ -2,7 +2,6 @@ package com.ivan.basicsecurityproject.controllers;
 
 import com.ivan.basicsecurityproject.models.Customer;
 import com.ivan.basicsecurityproject.repositories.CustomerRepository;
-import com.ivan.basicsecurityproject.util.PasswordEncoderUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
