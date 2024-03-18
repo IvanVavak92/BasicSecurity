@@ -22,29 +22,28 @@ public class ProjectSecurityConfig {
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http.cors(cors -> {
-            CorsConfiguration config = new CorsConfiguration();
-            config.setAllowedOrigins(Collections.singletonList("http://localhost:4200"));
-            config.setAllowedMethods(Collections.singletonList("*"));
-            config.setAllowCredentials(true);
-            config.setAllowedHeaders(Collections.singletonList("*"));
-            config.setMaxAge(3600L);
-            cors.configurationSource(request -> config);
+                    CorsConfiguration config = new CorsConfiguration();
+                    config.setAllowedOrigins(Collections.singletonList("http://localhost:4200"));
+                    config.setAllowedMethods(Collections.singletonList("*"));
+                    config.setAllowCredentials(true);
+                    config.setAllowedHeaders(Collections.singletonList("*"));
+                    config.setMaxAge(3600L);
+                    cors.configurationSource(request -> config);
                 })
-
 
                 .csrf(AbstractHttpConfigurer::disable);
         http.requiresChannel(c -> c.requestMatchers("/actuator/**").requiresInsecure());
         http.authorizeHttpRequests((requests) -> requests
-                .requestMatchers("/myAccount", "/myBalance", "/myCards", "/myLoans", "/user").authenticated()
-                .requestMatchers("/notices", "/contact", "/register").permitAll())
+                        .requestMatchers("/myAccount", "/myBalance", "/myCards", "/myLoans", "/user").authenticated()
+                        .requestMatchers("/notices", "/contact", "/register").permitAll())
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults());
-                return http.build();
+        return http.build();
     }
 
-   @Bean
+    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(); // Use BCryptPasswordEncoder for password encoding
     }
-    
+
 }
