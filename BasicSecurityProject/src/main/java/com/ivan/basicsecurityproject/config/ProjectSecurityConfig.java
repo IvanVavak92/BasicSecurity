@@ -29,9 +29,8 @@ public class ProjectSecurityConfig {
                     config.setAllowedHeaders(Collections.singletonList("*"));
                     config.setMaxAge(3600L);
                     cors.configurationSource(request -> config);
-                })
-
-                .csrf(AbstractHttpConfigurer::disable);
+                });
+        http.csrf(csrf -> csrf.ignoringRequestMatchers("/contact","/register"));
         http.requiresChannel(c -> c.requestMatchers("/actuator/**").requiresInsecure());
         http.authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/myAccount", "/myBalance", "/myCards", "/myLoans", "/user").authenticated()
