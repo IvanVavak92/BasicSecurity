@@ -1,5 +1,6 @@
 package com.ivan.basicsecurityproject.config;
 
+import com.ivan.basicsecurityproject.models.Authority;
 import com.ivan.basicsecurityproject.models.Customer;
 import com.ivan.basicsecurityproject.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class KufrikBankUsernamePwdAuthenticationProvider implements AuthenticationProvider {
@@ -38,13 +40,21 @@ public class KufrikBankUsernamePwdAuthenticationProvider implements Authenticati
             if (passwordEncoder.matches(pwd, customer.get(0).getPwd())) {
                 List<GrantedAuthority> authorities = new ArrayList<>();
                 authorities.add(new SimpleGrantedAuthority(customer.get(0).getRole()));
-                return new UsernamePasswordAuthenticationToken(username, pwd, authorities);
+                return new UsernamePasswordAuthenticationToken(username, pwd, getGrantedAuthorities(customer.get(0).getAuthorities()));
             } else {
                 throw new BadCredentialsException("Invalid password!");
             }
         } else {
             throw new BadCredentialsException("No user registered with this details!");
         }
+    }
+
+    private List<GrantedAuthority> getGrantedAuthorities(Set<Authority> authorities) {
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        for (Authority authority : authorities) {
+            grantedAuthorities.add(new SimpleGrantedAuthority(authority.getName()));
+        }
+        return grantedAuthorities;
     }
 
     @Override
