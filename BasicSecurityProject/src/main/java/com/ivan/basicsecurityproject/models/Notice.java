@@ -6,6 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 import java.sql.Date;
 
 @Entity
+@Table(name = "notice_details")
 public class Notice {
 
     @Id
