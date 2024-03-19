@@ -1,6 +1,7 @@
 package com.ivan.basicsecurityproject.config;
 
 import com.ivan.basicsecurityproject.filters.AuthoritiesLoggingAfterFilter;
+import com.ivan.basicsecurityproject.filters.AuthoritiesLoggingAtFilter;
 import com.ivan.basicsecurityproject.filters.CsrfCookieFilter;
 import com.ivan.basicsecurityproject.filters.RequestValidationBeforeFilter;
 import org.springframework.context.annotation.Bean;
@@ -42,6 +43,7 @@ public class ProjectSecurityConfig {
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
                 //custom filters
                 .addFilterBefore(new RequestValidationBeforeFilter(), BasicAuthenticationFilter.class)
+                .addFilterAt(new AuthoritiesLoggingAtFilter(), BasicAuthenticationFilter.class)
                 .addFilterAfter(new AuthoritiesLoggingAfterFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/myAccount").hasRole("USER")
