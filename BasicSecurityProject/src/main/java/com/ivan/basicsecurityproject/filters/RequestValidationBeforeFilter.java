@@ -13,14 +13,14 @@ import java.util.Base64;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
-public class RequestValidationBeforeFilter implements Filter {
+public class RequestValidationBeforeFilter  implements Filter {
 
     public static final String AUTHENTICATION_SCHEME_BASIC = "Basic";
     private Charset credentialsCharset = StandardCharsets.UTF_8;
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
         String header = req.getHeader(AUTHORIZATION);
@@ -46,5 +46,6 @@ public class RequestValidationBeforeFilter implements Filter {
                 }
             }
         }
+        chain.doFilter(request, response);
     }
 }
