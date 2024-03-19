@@ -175,3 +175,9 @@ VALUES (1, 'VIEWLOANS');
 
 INSERT INTO `authorities` (`customer_id`, `name`)
 VALUES (1, 'VIEWBALANCE');
+
+DELETE FROM `authorities` WHERE `customer_id` = 1;
+INSERT INTO `authorities` (`customer_id`, `name`)
+values (1,'ROLE_USER');
+INSERT INTO `authorities` (`customer_id`, `name`)
+values (1, 'ROLE_ADMIN');
