@@ -40,6 +40,7 @@ public class JWTTokenGeneratorFilter extends OncePerRequestFilter {
     }
 
     @Override
+    // token will be generated only during login process
     protected boolean shouldNotFilter(HttpServletRequest request) {
         return !request.getServletPath().equals("/user");
     }
