@@ -24,7 +24,6 @@ public class ProjectSecurityConfig {
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         CsrfTokenRequestAttributeHandler requestHandler = new CsrfTokenRequestAttributeHandler();
         requestHandler.setCsrfRequestAttributeName("_csrf");
-
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .cors(corsCustomizer -> corsCustomizer.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
@@ -35,22 +34,21 @@ public class ProjectSecurityConfig {
                     config.setExposedHeaders(Arrays.asList("Authorization"));
                     config.setMaxAge(3600L);
                     return config;
-                })).csrf((csrf) -> csrf.csrfTokenRequestHandler(requestHandler).ignoringRequestMatchers("/contact", "/register")
+                })).csrf((csrf) -> csrf.csrfTokenRequestHandler(requestHandler).ignoringRequestMatchers("/contact","/register")
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
-                //custom filters
                 .addFilterBefore(new RequestValidationBeforeFilter(), BasicAuthenticationFilter.class)
-                .addFilterAt(new AuthoritiesLoggingAtFilter(), BasicAuthenticationFilter.class)
+                .addFilterAt(new AuthoritiesLoggingAtFilter(),BasicAuthenticationFilter.class)
                 .addFilterAfter(new AuthoritiesLoggingAfterFilter(), BasicAuthenticationFilter.class)
                 .addFilterAfter(new JWTTokenGeneratorFilter(), BasicAuthenticationFilter.class)
                 .addFilterBefore(new JWTTokenValidatorFilter(), BasicAuthenticationFilter.class)
-                .authorizeHttpRequests((requests) -> requests
+                .authorizeHttpRequests((requests)->requests
                         .requestMatchers("/myAccount").hasRole("USER")
-                        .requestMatchers("/myBalance").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/myBalance").hasAnyRole("USER","ADMIN")
                         .requestMatchers("/myLoans").hasRole("USER")
                         .requestMatchers("/myCards").hasRole("USER")
                         .requestMatchers("/user").authenticated()
-                        .requestMatchers("/notices", "/register", "/contact").permitAll())
+                        .requestMatchers("/notices","/contact","/register").permitAll())
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults());
         return http.build();
@@ -58,7 +56,7 @@ public class ProjectSecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // Use BCryptPasswordEncoder for password encoding
+        return new BCryptPasswordEncoder();
     }
 
 }

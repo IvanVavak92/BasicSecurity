@@ -21,6 +21,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class JWTTokenGeneratorFilter extends OncePerRequestFilter {
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
@@ -40,7 +41,6 @@ public class JWTTokenGeneratorFilter extends OncePerRequestFilter {
     }
 
     @Override
-    // token will be generated only during login process
     protected boolean shouldNotFilter(HttpServletRequest request) {
         return !request.getServletPath().equals("/user");
     }

@@ -16,7 +16,7 @@ public class AuthoritiesLoggingAfterFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-        //it shows details after login in console
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (null != authentication) {
             LOG.info("User " + authentication.getName() + " is successfully authenticated and "
