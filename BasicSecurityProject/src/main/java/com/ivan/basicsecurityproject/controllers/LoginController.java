@@ -17,36 +17,8 @@ import java.util.List;
 @RestController
 public class LoginController {
 
-    private final CustomerRepository customerRepository;
-    private final PasswordEncoder passwordEncoder;
     @Autowired
-    public LoginController(CustomerRepository customerRepository, PasswordEncoder passwordEncoder) {
-        this.customerRepository = customerRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
-
-    @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody Customer customer) {
-        Customer savedCustomer = null;
-        ResponseEntity response = null;
-        try {
-            // Encode the password before saving
-            String encodedPassword = passwordEncoder.encode(customer.getPwd());
-            customer.setPwd(encodedPassword);
-            savedCustomer = customerRepository.save(customer);
-            if (savedCustomer.getId() > 0) {
-                response = ResponseEntity.status(HttpStatus.CREATED)
-                        .body("Given user details are succesfully registered");
-            } else {
-                response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body("Failed to register user details");
-            }
-        } catch (Exception e) {
-            response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Exception occured dure to " + e.getMessage());
-        }
-        return response;
-    }
+    private CustomerRepository customerRepository;
 
     @RequestMapping("/user")
     public Customer getUserDetailsAfterLogin(Authentication authentication) {
@@ -58,4 +30,5 @@ public class LoginController {
         }
 
     }
+
 }

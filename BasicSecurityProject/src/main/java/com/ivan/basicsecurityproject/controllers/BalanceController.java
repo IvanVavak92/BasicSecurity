@@ -1,7 +1,9 @@
 package com.ivan.basicsecurityproject.controllers;
 
 import com.ivan.basicsecurityproject.models.AccountTransactions;
+import com.ivan.basicsecurityproject.models.Customer;
 import com.ivan.basicsecurityproject.repositories.AccountTransactionsRepository;
+import com.ivan.basicsecurityproject.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,21 +14,22 @@ import java.util.List;
 @RestController
 public class BalanceController {
 
-    private final AccountTransactionsRepository accountTransactionsRepository;
+    @Autowired
+    private CustomerRepository customerRepository;
 
     @Autowired
-    public BalanceController(AccountTransactionsRepository accountTransactionsRepository) {
-        this.accountTransactionsRepository = accountTransactionsRepository;
-    }
+    private AccountTransactionsRepository accountTransactionsRepository;
 
     @GetMapping("/myBalance")
-    public List<AccountTransactions> getBalanceDetails(@RequestParam int id) {
-        List<AccountTransactions> accountTransactions = accountTransactionsRepository.
-                findByCustomerIdOrderByTransactionDtDesc(id);
-        if (accountTransactions != null) {
-            return accountTransactions;
-        } else {
-            return null;
+    public List<AccountTransactions> getBalanceDetails(@RequestParam String email) {
+        List<Customer> customers = customerRepository.findByEmail(email);
+        if (customers != null && !customers.isEmpty()) {
+            List<AccountTransactions> accountTransactions = accountTransactionsRepository.
+                    findByCustomerIdOrderByTransactionDtDesc(customers.get(0).getId());
+            if (accountTransactions != null ) {
+                return accountTransactions;
+            }
         }
+        return null;
     }
 }

@@ -14,23 +14,19 @@ import java.util.concurrent.TimeUnit;
 @RestController
 public class NoticesController {
 
-    private final NoticeRepository noticeRepository;
-
     @Autowired
-    public NoticesController(NoticeRepository noticeRepository) {
-        this.noticeRepository = noticeRepository;
-    }
+    private NoticeRepository noticeRepository;
 
     @GetMapping("/notices")
     public ResponseEntity<List<Notice>> getNotices() {
         List<Notice> notices = noticeRepository.findAllActiveNotices();
         if (notices != null ) {
             return ResponseEntity.ok()
-                    // for next 60 sec it will not invoke notices
                     .cacheControl(CacheControl.maxAge(60, TimeUnit.SECONDS))
                     .body(notices);
         }else {
             return null;
         }
     }
+
 }
